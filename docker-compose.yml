@@ -1,0 +1,77 @@
+version: "3.7"
+
+# secrets:
+#   gitpass:
+#     file: my-secret
+
+services:
+  mariadb:
+    image: ${ADA_OR_WISP}/mariadb:1.0.0
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+      args:
+        - ADA_OR_WISP
+    volumes:
+      - db-data:/var/lib/mysql
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_DATABASE: "${ADA_OR_WISP}_common"
+      MYSQL_USER: "${ADA_OR_WISP}_DBUSER"
+      ADA_ADMIN_PASSWORD: "admin${ADA_OR_WISP}"
+    networks:
+      - backend
+      - frontend
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+    networks:
+      - frontend
+
+  app:
+    image: ${ADA_OR_WISP}/app:1.0.0
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    volumes:
+      - app:/var/www/html/app
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_DATABASE: "${ADA_OR_WISP}_common"
+      MYSQL_USER: "${ADA_OR_WISP}_DBUSER"
+      DEFAULT_PROVIDER_DB: "${DEFAULT_PROVIDER}_provider"
+    depends_on:
+      - mariadb
+      - redis
+    ports:
+      - 8888:80
+    networks:
+      - frontend
+    # secrets:
+    #   - source: gitpass
+
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 9090:80
+    env_file:
+      - ./.env
+    environment:
+      PMA_HOST: ${MYSQL_HOST}
+    depends_on:
+      - mariadb
+    networks:
+      - backend
+
+volumes:
+  db-data:
+  app:
+  redis-data:
+
+networks:
+  backend:
+  frontend:

@@ -4,6 +4,8 @@
 2. copy the provided ```env.template``` to ```.env```
 3. edit the .env file using your own desired values
 4. start the build process using the provided ```docker-compose.yml``` file: ```docker-compose [--build] -d```
+5. have some coffee, wait the build process, and check ```docker-compose logs -tf app``` when the apache process is running (might take a while, something like 10 minutes)
+6. visit ${HTTP_ROOT_DIR} in your browser and login with user adminAda, password ${ADA_ADMIN_PASSWORD} (see below notes for env vars)
 
 ## Containers built by the docker-compose
 
@@ -46,7 +48,7 @@ After running docker-compose, you should have 4 containers running and 3 volumes
 | MYSQL_HOST | is the hostname that the app service will use to make mysql connections to the mariadb service | mariadb | NO |
 | ADA_ADMIN_PASSWORD | is the ADA password for the 'adminAda' predefined user, if you need to change it go to the docker-compose file. This is here just for reference and to show the default value | adminada | NO |
 | MULTIPROVIDER | tells ADA if you are setting up a multipirovider or non multipirovider (aka multitenant) installation. Use 0 for non multipirovider, 1 for multiprovider (the default) | 1 | YES |
-| HTTP_ROOT_DIR | must point the the URL of your installation<br/>If non multipirovider, must be the url to access all common static contents: img, js, css etc. so if non multipirovider pls set it to something like: http[s]://ada.lynxlab.com:8888 then the setup will substitute the 3rd level name with the provider name (for each provider) | - | NO |
+| HTTP_ROOT_DIR | must point the the URL of your installation<br/>If non multipirovider, must be the url to access all common static contents: img, js, css etc. so if non multipirovider pls set it to something like: http[s]://ada.lynxlab.com:8888 then the setup will substitute the 3rd level name with the provider name (for each provider)<br/>**IMPORTANT NOTE** docker-compose.yml file will expose port 8888, so if your URL has a port other than 8888 please edit the app service in the docker-compose file accordingly | - | NO |
 | PROVIDERS_LIST | is a comma separated list of providers that must be created at startup | client0, client1 | NO |
 | DEFAULT_PROVIDER | is the default provider | client0 | NO |
 | DEFAULT_PROVIDER_DB | is the ADA default provider databse name, if you need to change it go to the docker-compose file. This is here just for reference and to show the default value | ${DEFAULT_PROVIDER}_provider | NO |

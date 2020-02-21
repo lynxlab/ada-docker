@@ -20449,7 +20449,7 @@ CREATE TABLE `servizio` (
   `min_incontri` int(11) NOT NULL,
   `max_incontri` int(11) NOT NULL,
   `durata_max_incontro` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -20482,7 +20482,7 @@ CREATE TABLE `tester` (
   `responsabile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `puntatore` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `descrizione` text COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -20529,7 +20529,7 @@ CREATE TABLE `utente` (
   `avatar` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
   `birthcity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `birthprovince` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `utente`

@@ -169,12 +169,12 @@ for provider in "${providers[@]}"; do
     if [ $DB_EXISTS != 0 ]; then
         echo ${provider}_provider database does not exists
         ## create the provider database
-        echo "create database ${provider}_provider; grant all privileges on ${provider}_provider.* to '${MYSQL_USER}'@'%'; flush privileges;" |
+        echo "create database \`${provider}_provider\`; grant all privileges on \`${provider}_provider\`.* to '${MYSQL_USER}'@'%'; flush privileges;" |
             mysql -h${MYSQL_HOST} -uroot -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE}
         ## import the tables structure
         mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${provider}_provider < ./db/ada_provider_empty.sql
         ## copy the administrator user in the provider
-        echo "INSERT INTO ${provider}_provider.utente SELECT * FROM ${MYSQL_DATABASE}.utente WHERE id_utente=1; INSERT INTO amministratore_sistema (id_utente_amministratore_sist) VALUES (1);" |
+        echo "INSERT INTO \`${provider}_provider\`.utente SELECT * FROM ${MYSQL_DATABASE}.utente WHERE id_utente=1; INSERT INTO amministratore_sistema (id_utente_amministratore_sist) VALUES (1);" |
             mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${provider}_provider
         ## create the provider in the common db and associate the admin user to it
         echo "INSERT INTO tester(nome,puntatore) VALUES ('${provider}', '${provider}'); INSERT INTO utente_tester(id_utente, id_tester) VALUES (1, LAST_INSERT_ID());" |

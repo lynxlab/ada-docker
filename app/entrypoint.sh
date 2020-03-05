@@ -310,6 +310,16 @@ if [ -d "modules" ]; then
 fi
 cd $basepath
 
+## enforce https with a .htaccess if needed
+if [[ $PARSED_PROTO =~ "https" ]]; then
+   cat <<EOF >> .htaccess
+# ensure https
+RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+EOF
+fi
 ## lastly, recursively chown the dir
 chown -R www-data:www-data .
 

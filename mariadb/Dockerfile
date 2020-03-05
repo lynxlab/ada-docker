@@ -8,3 +8,4 @@ ARG ADA_OR_WISP
 COPY utf8.cnf /etc/mysql/mariadb.conf.d/
 COPY $ADA_OR_WISP-empty-common.sql /docker-entrypoint-initdb.d/00-empty-common.sql
 COPY init.sh /docker-entrypoint-initdb.d/99-init.sh
+RUN chmod -R 644 /etc/mysql/mariadb.conf.d/

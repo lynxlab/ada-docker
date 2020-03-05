@@ -28,7 +28,7 @@ inBothIfNonMulti=()
 ## put here filenames to be imported in the common db if multiprovider eq 1
 inCommonIfMulti=(ada_gdpr_policy.sql ada_login_module.sql)
 ## put here filenames to be ALWAYS imported in the common db
-inCommon=(ada_apps_module.sql ada_secretquestion_module.sql)
+inCommon=(ada_apps_module.sql ada_secretquestion_module.sql ada_impexport_module.sql)
 ## store current working dir
 basepath=$(pwd)
 

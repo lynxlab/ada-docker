@@ -36,7 +36,12 @@ function importSQL() {
     dbname=$1
     filename=$2
     echo -n "$dbname "
-    mysql -ss -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} --default_character_set utf8 $dbname < $filename >/dev/null
+    RESULT=0
+    mysql -ss -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} --default_character_set utf8 $dbname < $filename >/dev/null 2>&1 || RESULT=$?
+    if [[ $RESULT -eq 1 ]]; then
+      echo
+      echo -n "WARNING! MySQL returned an error, this could be normal if you're redeploying or restaring the container"
+    fi
 }
 
 ## usage: file_env VAR [DEFAULT]

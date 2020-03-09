@@ -135,7 +135,7 @@ if [ ! -z $repourl ]; then
 fi
 
 ## create common database modules tables
-if [[ $firstinstall -eq 1 && -d "modules" ]]; then
+if [[ -d "modules" ]]; then
     ## find with sorting by filename magic, courtesy of: https://unix.stackexchange.com/a/13609
     find ./modules -name "*.sql" -type f | awk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -n -t / | cut -f2- -d/ | while read sqlfile; do
         # echo $sqlfile
@@ -184,29 +184,29 @@ for provider in "${providers[@]}"; do
         ## create the provider in the common db and associate the admin user to it
         echo "INSERT INTO tester(nome,puntatore) VALUES ('${provider}', '${provider}'); INSERT INTO utente_tester(id_utente, id_tester) VALUES (1, LAST_INSERT_ID());" |
             mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE}
-        ## create provider database modules tables
-        if [[ -d 'modules' ]]; then
-            ## find with sorting by filename magic, courtesy of: https://unix.stackexchange.com/a/13609
-            find ./modules -name "*.sql" -type f | awk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -n -t / | cut -f2- -d/ | while read sqlfile; do
-                dirname=$(dirname $sqlfile)
-                if [[ $sqlfile != *"/db/"* ]]; then
-                    modulename=$(echo $dirname | cut -c 3-)
-                else
-                    modulename=$(dirname $dirname | cut -c 3-)
-                fi
-                # import the SQL even if the module is disabeld to let the module be enabled
-                # in the future without rebuilding the whole database
-                if [[ $sqlfile != *"menu"* && ! " ${inCommon[@]} " =~ " $(basename $sqlfile) " && ! ( ${MULTIPROVIDER} -eq 1 && " ${inCommonIfMulti[@]} " =~ " $(basename $sqlfile) " ) ]]; then
-                    echo -n "importing $sqlfile in "
-                    importSQL ${provider}_provider $sqlfile
-                    echo ""
-                fi
-            done
-        fi
-        ## done create provider database modules tables
     else
         echo ${provider}_provider database access granted
     fi
+    ## create provider database modules tables
+    if [[ -d 'modules' ]]; then
+        ## find with sorting by filename magic, courtesy of: https://unix.stackexchange.com/a/13609
+        find ./modules -name "*.sql" -type f | awk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -n -t / | cut -f2- -d/ | while read sqlfile; do
+            dirname=$(dirname $sqlfile)
+            if [[ $sqlfile != *"/db/"* ]]; then
+                modulename=$(echo $dirname | cut -c 3-)
+            else
+                modulename=$(dirname $dirname | cut -c 3-)
+            fi
+            # import the SQL even if the module is disabeld to let the module be enabled
+            # in the future without rebuilding the whole database
+            if [[ $sqlfile != *"menu"* && ! " ${inCommon[@]} " =~ " $(basename $sqlfile) " && ! ( ${MULTIPROVIDER} -eq 1 && " ${inCommonIfMulti[@]} " =~ " $(basename $sqlfile) " ) ]]; then
+                echo -n "importing $sqlfile in "
+                importSQL ${provider}_provider $sqlfile
+                echo ""
+            fi
+        done
+    fi
+    ## done create provider database modules tables
 
     if [ ! -d ./clients/${provider} ]; then
         mkdir -p -v ./clients/${provider}

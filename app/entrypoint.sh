@@ -166,8 +166,15 @@ fi
 ## done create common database modules tables
 
 ## create providers dirs and databases
-providers=($(echo "${PROVIDERS_LIST}" | tr ',' '\n'))
+providers=($(echo "${PROVIDERS_LIST}" | tr -d ' ' | tr ',' '\n'))
+pointers=($(echo "${PROVIDERS_POINTERS}" | tr -d ' '| tr ',' '\n'))
 for provider in "${providers[@]}"; do
+    let "n=(`echo ${providers[@]} | tr -s " " "\n" | grep -n "${provider}" | cut -d":" -f 1`)-1"
+    if [[ ! -z ${pointers[n]} ]]; then
+        pointer=${pointers[n]}
+    else
+        pointer=${provider}
+    fi
     # check if database exists
     DB_EXISTS=0
     mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${provider}_provider -e exit >/dev/null 2>&1 || DB_EXISTS=$?
@@ -182,7 +189,7 @@ for provider in "${providers[@]}"; do
         echo "INSERT INTO \`${provider}_provider\`.utente SELECT * FROM ${MYSQL_DATABASE}.utente WHERE id_utente=1; INSERT INTO amministratore_sistema (id_utente_amministratore_sist) VALUES (1);" |
             mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${provider}_provider
         ## create the provider in the common db and associate the admin user to it
-        echo "INSERT INTO tester(nome,puntatore) VALUES ('${provider}', '${provider}'); INSERT INTO utente_tester(id_utente, id_tester) VALUES (1, LAST_INSERT_ID());" |
+        echo "INSERT INTO tester(nome,puntatore) VALUES ('${provider}', '${pointer}'); INSERT INTO utente_tester(id_utente, id_tester) VALUES (1, LAST_INSERT_ID());" |
             mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE}
     else
         echo ${provider}_provider database access granted
@@ -208,8 +215,8 @@ for provider in "${providers[@]}"; do
     fi
     ## done create provider database modules tables
 
-    if [ ! -d ./clients/${provider} ]; then
-        mkdir -p -v ./clients/${provider}
+    if [ ! -d ./clients/${pointer} ]; then
+        mkdir -p -v ./clients/${pointer}
     fi
 
     ## build provider config files
@@ -251,7 +258,7 @@ for provider in "${providers[@]}"; do
     fi
 
     export ASISPROVIDER=$provider
-    export UPPERPROVIDER=$(echo "$provider" | tr '[:lower:]' '[:upper:]')
+    export UPPERPROVIDER=$(echo "$pointer" | tr '[:lower:]' '[:upper:]')
     export PROV_HTTP=$PROV_HTTP
 
     echo -e "URL for ${GREEN}${ASISPROVIDER}${NC} will be ${GREEN}${PROV_HTTP}${NC}"
@@ -259,9 +266,9 @@ for provider in "${providers[@]}"; do
     # do the variable substitution on each file of the clients config dir
     find clients_DEFAULT/docker-templates/ -type f -print0 | while read -d $'\0' fullpath; do
         filename=${fullpath//clients_DEFAULT\/docker-templates\//}
-        if [ ! -f ./clients/$provider/$filename ]; then
-            echo Generating ./clients/$provider/$filename
-            envsubst '$PROV_HTTP,$UPPERPROVIDER,$ASISPROVIDER' < $fullpath > ./clients/$provider/$filename
+        if [ ! -f ./clients/$pointer/$filename ]; then
+            echo Generating ./clients/$pointer/$filename
+            envsubst '$PROV_HTTP,$UPPERPROVIDER,$ASISPROVIDER' < $fullpath > ./clients/$pointer/$filename
         fi
     done
 

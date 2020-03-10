@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+# set -e
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -37,10 +37,10 @@ function importSQL() {
     filename=$2
     echo -n "$dbname "
     RESULT=0
-    mysql -ss -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} --default_character_set utf8 $dbname < $filename >/dev/null 2>&1 || RESULT=$?
+    mysql -ss -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} --default_character_set utf8 $dbname < $filename >/dev/null || RESULT=$?
     if [[ $RESULT -eq 1 ]]; then
-      echo
-      echo -n "WARNING! MySQL returned an error, this could be normal if you're redeploying or restaring the container"
+      # echo
+      echo -ne "${RED}WARNING!${NC} MySQL returned an error, this could be normal if you're redeploying or restaring the container"
     fi
 }
 

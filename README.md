@@ -3,7 +3,7 @@
 1. clone this repository ```git clone https://github.com/lynxlab/ada-docker.git```
 2. copy the provided ```env.template``` to ```.env```
 3. edit the .env file using your own desired values
-4. start the build process using the provided ```docker-compose.yml``` file: ```docker-compose [--build] -d```
+4. start the build process using the provided ```docker-compose.yml``` file: ```docker-compose up [--build] -d```
 5. have some coffee, wait the build process, and check ```docker-compose logs -tf app``` when the apache process is running (might take a while, something like 10 minutes)
 6. visit ${HTTP_ROOT_DIR} in your browser and login with user adminAda, password ${ADA_ADMIN_PASSWORD} (see below notes for env vars)
 

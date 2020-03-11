@@ -227,7 +227,7 @@ for provider in "${providers[@]}"; do
             $thirdlevel = $provider
         fi
         # symlink $thirdlevel to $provider
-        if [[ ! -L ./clients/${thirdlevel} && $thirdlevel != $provider ]]
+        if [[ ! -L ./clients/${thirdlevel} && $thirdlevel != $provider ]]; then
             ln -s -v ./clients/${provider} ./clients/${thirdlevel}
         fi
         thirdlevel=($(echo "${thirdlevel}" | tr -d "'"))

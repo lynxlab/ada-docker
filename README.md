@@ -49,8 +49,8 @@ After running docker-compose, you should have 4 containers running and 3 volumes
 | ADA_ADMIN_PASSWORD | is the ADA password for the 'adminAda' predefined user, if you need to change it go to the docker-compose file. This is here just for reference and to show the default value | adminada | NO |
 | MULTIPROVIDER | tells ADA if you are setting up a multipirovider or non multipirovider (aka multitenant) installation. Use 0 for non multipirovider, 1 for multiprovider (the default) | 1 | YES |
 | HTTP_ROOT_DIR | must point the the URL of your installation<br/>If non multipirovider, must be the url to access all common static contents: img, js, css etc. so if non multipirovider pls set it to something like: http[s]://ada.lynxlab.com:8888 then the setup will substitute the 3rd level name with the provider name (for each provider)<br/>**IMPORTANT NOTE** docker-compose.yml file will expose port 8888, so if your URL has a port other than 8888 please edit the app service in the docker-compose file accordingly | - | NO |
-| PROVIDERS_LIST | is a comma separated list of providers that must be created at startup | client0, client1 | NO |
-| PROVIDERS_POINTERS | is a comma separated list of provider's pointers that must be linked to each provider at startup | client0ptr, client1ptr | NO |
+| PROVIDERS_LIST | is a comma separated list of provider pointers that must be created at startup | client0, client1 | NO |
+| PROVIDERS_THIRDLEVELS | is a comma separated list of 3rd level domains that must be linked to each provider's pointers at startup | - | NO |
 | DEFAULT_PROVIDER | is the default provider | client0 | NO |
 | DEFAULT_PROVIDER_DB | is the ADA default provider databse name, if you need to change it go to the docker-compose file. This is here just for reference and to show the default value | ${DEFAULT_PROVIDER}_provider | NO |
 | MODULES_DISABLE | is a comma separated list of modules that you do not want to enable (e.g.: secretquestion,code_man) | secretquestion,code_man | - | YES |

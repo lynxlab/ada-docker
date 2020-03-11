@@ -51,8 +51,8 @@ After running docker-compose, you should have 4 containers running and 3 volumes
 | HTTP_ROOT_DIR | must point the the URL of your installation<br/>If non multipirovider, must be the url to access all common static contents: img, js, css etc. so if non multipirovider pls set it to something like: http[s]://ada.lynxlab.com:8888 then the setup will substitute the 3rd level name with the provider name (for each provider)<br/>**IMPORTANT NOTE** docker-compose.yml file will expose port 8888, so if your URL has a port other than 8888 please edit the app service in the docker-compose file accordingly | - | NO |
 | PROVIDERS_LIST | is a comma separated list of provider pointers that must be created at startup | client0, client1 | NO |
 | PROVIDERS_THIRDLEVELS | is a comma separated list of 3rd level domains that must be linked to each provider's pointers at startup | - | NO |
-| DEFAULT_PROVIDER | is the default provider | client0 | NO |
-| DEFAULT_PROVIDER_DB | is the ADA default provider databse name, if you need to change it go to the docker-compose file. This is here just for reference and to show the default value | ${DEFAULT_PROVIDER}_provider | NO |
+| DEFAULT_PROVIDER_POINTER | is the default provider | client0 | NO |
+| DEFAULT_PROVIDER_DB | is the ADA default provider databse name, if you need to change it go to the docker-compose file. This is here just for reference and to show the default value | ${DEFAULT_PROVIDER_POINTER}_provider | NO |
 | MODULES_DISABLE | is a comma separated list of modules that you do not want to enable (e.g.: secretquestion,code_man) | secretquestion,code_man | - | YES |
 | PORTAL_NAME | is the page title to be used:<br/>- if not set, ADA_OR_WISP will be used<br/>- if multipirovider will be the same for every provider<br/>- if non ,ultiprovider the provider name in uppercase will be appended to the string | - | YES |
 | ADA_ADMIN_MAIL_ADDRESS | is the application admin email address | - | YES |

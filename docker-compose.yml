@@ -43,7 +43,7 @@ services:
     environment:
       MYSQL_DATABASE: "${ADA_OR_WISP}_common"
       MYSQL_USER: "${ADA_OR_WISP}_DBUSER"
-      DEFAULT_PROVIDER_DB: "${DEFAULT_PROVIDER}_provider"
+      DEFAULT_PROVIDER_DB: "${DEFAULT_PROVIDER_POINTER}_provider"
     depends_on:
       - mariadb
       - redis

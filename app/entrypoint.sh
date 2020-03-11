@@ -189,7 +189,7 @@ for provider in "${providers[@]}"; do
         echo "INSERT INTO \`${provider}_provider\`.utente SELECT * FROM ${MYSQL_DATABASE}.utente WHERE id_utente=1; INSERT INTO amministratore_sistema (id_utente_amministratore_sist) VALUES (1);" |
             mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${provider}_provider
         ## create the provider in the common db and associate the admin user to it
-        echo "INSERT INTO tester(`nome`,`puntatore`,`3rdleveldomain`) VALUES ('${provider}', '${provider}', $thirdlevel); INSERT INTO utente_tester(id_utente, id_tester) VALUES (1, LAST_INSERT_ID());" |
+        echo "INSERT INTO tester(\`nome\`,\`puntatore\`,\`3rdleveldomain\`) VALUES ('${provider}', '${provider}', $thirdlevel); INSERT INTO utente_tester(id_utente, id_tester) VALUES (1, LAST_INSERT_ID());" |
             mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE}
     else
         echo ${provider}_provider database access granted

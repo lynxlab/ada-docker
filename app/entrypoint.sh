@@ -226,6 +226,10 @@ for provider in "${providers[@]}"; do
         if [[ $thirdlevel == "NULL" ]]; then
             $thirdlevel = $provider
         fi
+        # symlink $thirdlevel to $provider
+        if [[ ! -L ./clients/${thirdlevel} && $thirdlevel != $provider ]]
+            ln -s -v ./clients/${provider} ./clients/${thirdlevel}
+        fi
         thirdlevel=($(echo "${thirdlevel}" | tr -d "'"))
         if [[ $dotcount -ge 2 ]]; then
             ## PARSED_HOST has 2 or more dots, i.e. is xxxx.domain.ext or yyy.xxxx.domain.ext, etc

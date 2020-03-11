@@ -223,14 +223,17 @@ for provider in "${providers[@]}"; do
     if [[ ${MULTIPROVIDER} -eq 0 ]]; then
         ## check if $PARSED_HOST has a 3rd level
         dotcount=$(echo ${PARSED_HOST} | grep -o "\." | wc -l)
+        if [[ $thirdlevel == "NULL" ]]; then
+            $thirdlevel = $provider
+        fi
         if [[ $dotcount -ge 2 ]]; then
             ## PARSED_HOST has 2 or more dots, i.e. is xxxx.domain.ext or yyy.xxxx.domain.ext, etc
             ## substitute everything up to the fisrt '.' with provider in lower case
-            SERVERALIAS=$(echo "$provider" | tr '[:upper:]' '[:lower:]')$(echo $PARSED_HOST | sed -nr 's,[^/.]*([/.].*),\1,p')
+            SERVERALIAS=$(echo "$thirdlevel" | tr '[:upper:]' '[:lower:]')$(echo $PARSED_HOST | sed -nr 's,[^/.]*([/.].*),\1,p')
         else
             ## PARSED_HOST has 1 or 0 dots, i.e. is domain.ext, or domain
             ## prepend provider in lower case to the parsed host
-            SERVERALIAS=$(echo "$provider" | tr '[:upper:]' '[:lower:]').$PARSED_HOST
+            SERVERALIAS=$(echo "$thirdlevel" | tr '[:upper:]' '[:lower:]').$PARSED_HOST
         fi
         PROV_HTTP=$PARSED_PROTO$SERVERALIAS
 

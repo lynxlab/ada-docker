@@ -26,7 +26,13 @@ After running docker-compose, you should have 4 containers running and 3 volumes
 |-----|-----|
 | **db-data** | store mariadb files |
 | **redis-data** | store redis files |
-| **app** | store the whole application itself |
+| **clients** | /var/www/html/app/clients |
+| **config** | /var/www/html/app/config |
+| **docs** | /var/www/html/app/docs |
+| **layout** | /var/www/html/app/layout |
+| **log** | /var/www/html/app/log |
+| **media** | /var/www/html/app/services/media |
+| **uploaded_files** | /var/www/html/app/upload_file/uploaded_files |
 
 ## Supported Environment variables
 

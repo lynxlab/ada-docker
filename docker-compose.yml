@@ -37,7 +37,13 @@ services:
       context: ./app
       dockerfile: Dockerfile
     volumes:
-      - app:/var/www/html/app
+      - clients:/var/www/html/app/clients
+      - config:/var/www/html/app/config
+      - docs:/var/www/html/app/docs
+      - layout:/var/www/html/app/layout
+      - log:/var/www/html/app/log
+      - media:/var/www/html/app/services/media
+      - uploaded_files:/var/www/html/app/upload_file/uploaded_files
     env_file:
       - ./.env
     environment:
@@ -69,8 +75,14 @@ services:
 
 volumes:
   db-data:
-  app:
   redis-data:
+  clients:
+  config:
+  docs:
+  layout:
+  log:
+  media:
+  uploaded_files:
 
 networks:
   backend:

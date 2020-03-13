@@ -27,5 +27,6 @@ COPY wait-for-mysql.sh /usr/local/bin
 COPY entrypoint.sh /usr/local/bin/
 WORKDIR /var/www/html/app
 
-ENTRYPOINT [ "wait-for-mysql.sh", "entrypoint.sh", "docker-php-entrypoint" , "apache2-foreground" ]
+VOLUME [ "clients/", "config/", "docs/", "layout/", "log/", "services/media/", "upload_file/uploaded_files/" ]
 
+ENTRYPOINT [ "wait-for-mysql.sh", "entrypoint.sh", "docker-php-entrypoint" , "apache2-foreground" ]

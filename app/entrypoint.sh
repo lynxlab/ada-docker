@@ -120,17 +120,11 @@ sed -i -e "s/\${PARSED_HOST}/${PARSED_HOST}/" /etc/apache2/sites-available/000-d
 ## clone or update the git repository
 if [ ! -z $repourl ]; then
     if [[ $firstinstall -eq 1 ]]; then
-        if [ -z "${GIT_BRANCH}" ]; then
-            GIT_BRANCH=master
+        echo "cloning from ${repourl/$GIT_PASSWORD/'${GIT_PASSWORD}'}"
+        git clone $repourl .
+        if [ ! -z "${GIT_BRANCH}" ]; then
+            git checkout ${GIT_BRANCH}
         fi
-        echo "cloning from ${repourl/$GIT_PASSWORD/'${GIT_PASSWORD}'}, branch: ${GIT_BRANCH}"
-        # clone the repo in a non empty dir
-        git init
-        git remote add origin $repourl
-        git pull origin ${GIT_BRANCH}
-        git branch --set-upstream-to=origin/${GIT_BRANCH} ${GIT_BRANCH}
-        # git clone $repourl .
-        unset GIT_BRANCH
         ## copy ada/wisp base config files
         cp config_path_DEFAULT.inc.php config_path.inc.php
         cp config/config_install_DEFAULT.inc.php config/config_install.inc.php

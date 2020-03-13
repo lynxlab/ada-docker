@@ -317,11 +317,15 @@ if [ -d "modules" ]; then
         dirname=$(dirname $fullpath)
         modulename=$(dirname $dirname | cut -c 3-)
         if [[ ! " ${disableArr[@]} " =~ " ${modulename} " ]]; then
-            destfile=${fullpath//_DEFAULT/}
-            if [ ! -f $destfile ]; then
-                cp -v $fullpath ${fullpath//_DEFAULT/}
+            destfile=$(basename $fullpath)
+            destfile=${destfile//_DEFAULT/}
+            if [ ! -f ../config/modules/$modulename/$destfile ]; then
+                if [ ! -d ../config/modules/${modulename} ]; then
+                    mkdir -p -v ../config/modules/${modulename}
+                fi
+                cp -v $fullpath ../config/modules/${modulename}/$destfile
             else
-                echo "$destfile already exists, skipped"
+                echo "../config/modules/$modulename/$destfile already exists, skipped"
             fi
         else
             echo "skipped $modulename as requested"

@@ -6,7 +6,7 @@ set -e
 cmd="$@"
 
 timeout=1800     # wait 30 minutes and commit suicide
-initialsleep=350 # 5.5 minutes, empirically set
+initialsleep=60 # 5.5 minutes, empirically set
 loopsleep=15     # 15 seconds of sleep while looping
 
 function timeout_monitor() {

@@ -55,7 +55,8 @@ services:
     #   - source: gitpass
 
   pma:
-    image: phpmyadmin/phpmyadmin:latest
+    #image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin:latest
     ports:
       - 9090:80
     env_file:

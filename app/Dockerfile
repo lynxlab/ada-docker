@@ -1,11 +1,11 @@
 ## ada/wisp application Dockerfile, with apache and php
 #FROM php:7.3-apache-stretch
 #FROM php:7.3-apache-buster
-FROM debian:buster
+FROM debian:bullseye
 LABEL maintainer="g.consorti@lynxlab.com"
 
 
-ENV PACKAGES="php7.3 libapache2-mod-php7.3 git zip unzip default-mysql-client gettext-base libgd3 curl php-igbinary php-apcu php-redis php-gd php-intl php-opcache php-zip php-bz2 php-mysqli php-shmop php-exif php-gettext php-sockets php-xsl php-readline php-curl"
+ENV PACKAGES="php7.4 libapache2-mod-php7.4 git zip unzip default-mysql-client gettext-base libgd3 curl php-igbinary php-apcu php-redis php-gd php-intl php-opcache php-zip php-bz2 php-mysqli php-shmop php-exif php-php-gettext php-sockets php-xsl php-readline php-curl"
 
 RUN apt-get update && apt-get -y install $PACKAGES && apt-get clean
 

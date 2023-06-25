@@ -102,7 +102,7 @@ if [ ! -z "${GIT_URL}" ]; then
     unset GIT_URL
 else
     if [ ! -z "${ADA_OR_WISP}" ] && [ ${ADA_OR_WISP} == "ada" ]; then
-        repourl="https://github.com/asterbini/ada.git"
+        repourl="https://github.com/lynxlab/ada.git"
     elif [ ! -z "${ADA_OR_WISP}" ] && [ ${ADA_OR_WISP} == "wisp" ]; then
         repourl="https://github.com/lynxlab/ada-wisp.git"
     else
